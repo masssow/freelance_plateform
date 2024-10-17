@@ -1,0 +1,69 @@
+name: CI/CD Pipeline
+
+# Déclenchement de la pipeline lors des pushes et pull requests sur la branche "main"
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      # Service MySQL
+      db:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_DATABASE: symfony
+          MYSQL_USER: symfony
+          MYSQL_PASSWORD: symfony
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping --silent"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+
+    steps:
+      # Étape 1 : Checkout du code source
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Étape 2 : Configuration de PHP et de Composer
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          extensions: mbstring, zip, pdo, pdo_mysql
+          ini-values: post_max_size=256M, upload_max_filesize=256M
+          coverage: none
+
+      # Étape 3 : Installation des dépendances Symfony via Composer
+      - name: Install dependencies
+        run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+
+      # Étape 4 : Vérification des migrations Doctrine
+      - name: Verify Doctrine Migrations
+        run: php bin/console doctrine:migrations:status
+
+      # Étape 5 : Exécution des tests unitaires avec PHPUnit
+      - name: Run PHPUnit tests
+        run: php bin/phpunit
+
+      # Étape 6 : Build de l'image Docker pour le projet Symfony
+      - name: Build Docker image
+        run: docker build -t myapp/symfony-app .
+
+      # Étape 7 : Pousser l'image Docker sur Docker Hub (facultatif)
+      - name: Push Docker image to Docker Hub
+        run: |
+          echo "${{ secrets.PASSWORDFREE }}" | docker login -u "${{ secrets.MASS18 }}" --password-stdin
+          docker tag myapp/symfony-app:latest mydockerhubuser/symfony-app:latest
+          docker push mydockerhubuser/symfony-app:latest
+
