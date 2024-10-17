@@ -46,7 +46,7 @@ jobs:
 
       # Étape 3 : Installation des dépendances Symfony via Composer
       - name: Install dependencies
-        run: composer install --no-progress --prefer-dist --optimize-autoloader
+        run: composer install --prefer-dist --optimize-autoloader
 
       # Étape 4 : Vérification des migrations Doctrine
       - name: Verify Doctrine Migrations
@@ -58,12 +58,12 @@ jobs:
 
       # Étape 6 : Build de l'image Docker pour le projet Symfony
       - name: Build Docker image
-        run: docker build -t myapp/symfony-app .
+        run: docker build -t freelance_plateform/symfony-app .
 
       # Étape 7 : Pousser l'image Docker sur Docker Hub (facultatif)
       - name: Push Docker image to Docker Hub
         run: |
           echo "${{ PASSWORDFREE }}" | docker login -u "${{ MASS18 }}" --password-stdin
           docker tag myapp/symfony-app:latest mydockerhubuser/symfony-app:latest
-          docker push mydockerhubuser/symfony-app:latest
+          docker push freelance_plateform/symfony-app:latest
 
