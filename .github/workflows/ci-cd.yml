@@ -66,7 +66,7 @@ jobs:
       # Étape 7 : Pousser l'image Docker sur Docker Hub (facultatif)
       - name: Push Docker image to Docker Hub
         run: |
-          echo "${{ PASSWORDFREE }}" | docker login -u "${{ MASS18 }}" --password-stdin
+          echo "${{ MASS18 }}" | docker login -u "${{ PASSWORDFREE }}" --password-stdin
           docker tag myapp/symfony-app:latest mydockerhubuser/symfony-app:latest
           docker push freelance_plateform/symfony-app:latest
 
