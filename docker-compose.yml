@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  # Service PHP pour Symfony
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile-php
+    container_name: symfony_app
+    volumes:
+      - .:/var/www/html
+    networks:
+      - symfony
+    depends_on:
+      - db
+
+ # Service MySQL (base de données)
+  db:
+    image: mysql:8.0
+    container_name: symfony_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: symfony
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: symfony
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - symfony
+
+  # Service Nginx (proxy pour Symfony et React)
+  nginx:
+    image: nginx:latest
+    container_name: symfony_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - php
+    networks:
+      - symfony
+
+
+     # Ajout de phpMyAdmin pour gérer MySQL
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: symfony_phpmyadmin
+    environment:
+      PMA_HOST: db   # Doit correspondre au nom du service MySQL
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    networks:
+      - symfony
+
+networks:
+  symfony:
+    driver: bridge
+
+volumes:
+  db_data:

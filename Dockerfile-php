@@ -1,0 +1,40 @@
+# Utilise une image PHP 8.2 avec FPM
+FROM php:8.2-fpm
+
+# Installe les dépendances système
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    locales \
+    zip \
+    jpegoptim optipng pngquant gifsicle \
+    vim \
+    unzip \
+    git \
+    curl
+
+# Configure les locales pour le système
+RUN locale-gen en_US.UTF-8  
+ENV LANG en_US.UTF-8  
+ENV LANGUAGE en_US:en  
+ENV LC_ALL en_US.UTF-8  
+
+# Installe les extensions PHP nécessaires pour Symfony
+RUN docker-php-ext-install pdo pdo_mysql gd
+
+# Copie le code source de votre projet Symfony
+COPY . /var/www/html
+
+# Définit le répertoire de travail
+WORKDIR /var/www/html
+
+# Donne les permissions nécessaires pour PHP-FPM
+# RUN chown -R www-data:www-data /var/www/html \
+#     && chmod -R 755 /var/www/html
+
+# Expose le port utilisé par PHP-FPM
+EXPOSE 9000
+
+# Démarre PHP-FPM
+CMD ["php-fpm"]
