@@ -39,7 +39,7 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '8.2'
           extensions: mbstring, zip, pdo, pdo_mysql
           ini-values: post_max_size=256M, upload_max_filesize=256M
           coverage: none
@@ -63,7 +63,7 @@ jobs:
       # Étape 7 : Pousser l'image Docker sur Docker Hub (facultatif)
       - name: Push Docker image to Docker Hub
         run: |
-          echo "${{ secrets.PASSWORDFREE }}" | docker login -u "${{ secrets.MASS18 }}" --password-stdin
+          echo "${{ PASSWORDFREE }}" | docker login -u "${{ MASS18 }}" --password-stdin
           docker tag myapp/symfony-app:latest mydockerhubuser/symfony-app:latest
           docker push mydockerhubuser/symfony-app:latest
 
