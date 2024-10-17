@@ -48,7 +48,7 @@ jobs:
         run: composer update
 
       - name: Copy .env file
-        run: cp .env.example .env
+        run: cp .env.workflow .env
       # Étape 3 : Installation des dépendances Symfony via Composer
       - name: Install dependencies
         run: composer install --prefer-dist --optimize-autoloader
