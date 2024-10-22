@@ -10,7 +10,7 @@ services:
     volumes:
       - .:/var/www/html
     networks:
-      - symfony
+      - freelance_platform
     depends_on:
       - db
 
@@ -28,7 +28,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     networks:
-      - symfony
+      - freelance_platform
 
   # Service Nginx (proxy pour Symfony et React)
   nginx:
@@ -41,7 +41,7 @@ services:
     depends_on:
       - php
     networks:
-      - symfony
+      - freelance_platform
 
 
      # Ajout de phpMyAdmin pour gérer MySQL
@@ -56,7 +56,7 @@ services:
     depends_on:
       - db
     networks:
-      - symfony
+      - freelance_platform
 
 networks:
   symfony:

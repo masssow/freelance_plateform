@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ClientRegisterController!{% endblock %}
+
+{% block body %}
+ <h1>Inscription Client</h1>
+
+    {{ form_start(form) }}
+    
+    <div class="form-group">
+        {{ form_label(form.email, 'Email') }}
+        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.email) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.password, 'Mot de passe') }}
+        {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.password) }}
+    </div>
+
+    {# <div class="form-group">
+        {{ form_label(form.nomEntrepise, 'Nom de l\'entreprise') }}
+        {{ form_widget(form.nomEntrepise, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.nomEntrepise) }} #}
+    </div>
+
+    {# <div class="form-group">
+        {{ form_label(form.phoneNumber, 'Numéro de téléphone') }}
+        {{ form_widget(form.phoneNumber, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.phoneNumber) }}
+    </div> #}
+
+    {# <button type="submit" class="btn btn-primary">{{ form.vars.submit_label|default('S\'inscrire') }}</button> #}
+
+    {{ form_end(form) }}
+{% endblock %}

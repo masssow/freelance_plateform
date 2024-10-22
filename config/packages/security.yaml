@@ -3,6 +3,10 @@ security:
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+    role_hierarchy:
+            ROLE_ADMIN: ROLE_USER
+            ROLE_CLIENT: ROLE_USER
+            ROLE_FREELANCE: ROLE_USER
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
@@ -16,6 +20,62 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            custom_authenticator: App\Security\AppAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                path: /
+                # by default, the feature is enabled by checking a checkbox in the
+                # login form, uncomment the following line to always enable it.
+                #always_remember_me: true
+        client_area:
+            pattern: ^/client
+            provider: app_user_provider
+            form_login:
+                check_path: client_login
+                login_path: client_login
+            remember_me:
+                secret: '%env(APP_SECRET)%'
+                lifetime: 604800       # Durée du cookie: 7 jours (en secondes)
+                path: /                # Où le cookie est valide
+                always_remember_me: true  # Toujours se souvenir de l'utilisateur
+                secure: true           # Active uniquement en HTTPS
+                httponly: true 
+                  
+            custom_authenticators:
+                    - App\Security\AppAuthenticator
+            entry_point: App\Security\AppAuthenticator  # Utilisation de l'authenticator personnalisé comme entry point
+            logout:
+                path: logout
+                invalidate_session: true
+                delete_cookies: 
+                    REMEMBERME: ~
+        freelance_area:
+            pattern: ^/freelance
+            provider: app_user_provider
+            form_login:
+                check_path: freelance_login
+                login_path: freelance_login
+            remember_me:
+                secret: '%env(APP_SECRET)%'
+                lifetime: 604800
+                path: /
+                always_remember_me: true
+                secure: true  # Active uniquement en HTTPS
+                httponly: true 
+                        
+            custom_authenticators:
+                    - App\Security\AppAuthenticator
+            entry_point: App\Security\AppAuthenticator  # Utilisation de l'authenticator personnalisé comme entry point
+            logout:
+                path: logout
+                invalidate_session: true
+                delete_cookies: 
+                    REMEMBERME: ~
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -24,10 +84,13 @@ security:
             # switch_user: true
 
     # Easy way to control access for large sections of your site
+
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        # - { path: ^/client, roles: ROLE_CLIENT }
+        # - { path: ^/freelance, roles: ROLE_FREELANCE }
 
 when@test:
     security:
