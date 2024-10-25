@@ -26,6 +26,14 @@ class Paiement
     #[ORM\Column(length: 255)]
     private ?string $methodPaiement = null;
 
+    #[ORM\ManyToOne(inversedBy: 'paiements')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Projet $projet = null;
+
+    #[ORM\ManyToOne(inversedBy: 'paiements')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Freelance $freelance = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +83,30 @@ class Paiement
     public function setMethodPaiement(string $methodPaiement): static
     {
         $this->methodPaiement = $methodPaiement;
+
+        return $this;
+    }
+
+    public function getProjet(): ?Projet
+    {
+        return $this->projet;
+    }
+
+    public function setProjet(?Projet $projet): static
+    {
+        $this->projet = $projet;
+
+        return $this;
+    }
+
+    public function getFreelance(): ?Freelance
+    {
+        return $this->freelance;
+    }
+
+    public function setFreelance(?Freelance $freelance): static
+    {
+        $this->freelance = $freelance;
 
         return $this;
     }

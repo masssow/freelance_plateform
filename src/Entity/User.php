@@ -62,10 +62,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'destinataire')]
     private Collection $messagesRecus;
 
+    #[ORM\OneToOne(mappedBy: 'Utilisateur', cascade: ['persist', 'remove'])]
+    private ?Dashboard $dashboard = null;
+
+    /**
+     * @var Collection<int, Notification>
+     */
+    #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'Utilisateur')]
+    private Collection $notifications;
+
     public function __construct()
     {
         $this->messagesEnvoyes = new ArrayCollection();
         $this->messagesRecus = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -197,6 +207,53 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($messagesRecu->getDestinataire() === $this) {
                 $messagesRecu->setDestinataire(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDashboard(): ?Dashboard
+    {
+        return $this->dashboard;
+    }
+
+    public function setDashboard(Dashboard $dashboard): static
+    {
+        // set the owning side of the relation if necessary
+        if ($dashboard->getUtilisateur() !== $this) {
+            $dashboard->setUtilisateur($this);
+        }
+
+        $this->dashboard = $dashboard;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Notification>
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): static
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications->add($notification);
+            $notification->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): static
+    {
+        if ($this->notifications->removeElement($notification)) {
+            // set the owning side to null (unless already changed)
+            if ($notification->getUtilisateur() === $this) {
+                $notification->setUtilisateur(null);
             }
         }
 

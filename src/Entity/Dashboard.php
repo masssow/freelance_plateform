@@ -23,6 +23,10 @@ class Dashboard
     #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private ?array $evaluationsRecues = null;
 
+    #[ORM\OneToOne(inversedBy: 'dashboard', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $Utilisateur = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +64,18 @@ class Dashboard
     public function setEvaluationsRecues(?array $evaluationsRecues): static
     {
         $this->evaluationsRecues = $evaluationsRecues;
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?User
+    {
+        return $this->Utilisateur;
+    }
+
+    public function setUtilisateur(User $Utilisateur): static
+    {
+        $this->Utilisateur = $Utilisateur;
 
         return $this;
     }

@@ -42,12 +42,19 @@ class Freelance extends User
     #[ORM\OneToMany(targetEntity: Evaluation::class, mappedBy: 'freelance')]
     private Collection $evaluations;
 
+    /**
+     * @var Collection<int, Paiement>
+     */
+    #[ORM\OneToMany(targetEntity: Paiement::class, mappedBy: 'freelance')]
+    private Collection $paiements;
+
     public function __construct()
     {
         parent::__construct();
         $this->projets = new ArrayCollection();
         $this->candidatures = new ArrayCollection();
         $this->evaluations = new ArrayCollection();
+        $this->paiements = new ArrayCollection();
     }
 
     public function getCv(): ?string
@@ -176,6 +183,36 @@ class Freelance extends User
             // set the owning side to null (unless already changed)
             if ($evaluation->getFreelance() === $this) {
                 $evaluation->setFreelance(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Paiement>
+     */
+    public function getPaiements(): Collection
+    {
+        return $this->paiements;
+    }
+
+    public function addPaiement(Paiement $paiement): static
+    {
+        if (!$this->paiements->contains($paiement)) {
+            $this->paiements->add($paiement);
+            $paiement->setFreelance($this);
+        }
+
+        return $this;
+    }
+
+    public function removePaiement(Paiement $paiement): static
+    {
+        if ($this->paiements->removeElement($paiement)) {
+            // set the owning side to null (unless already changed)
+            if ($paiement->getFreelance() === $this) {
+                $paiement->setFreelance(null);
             }
         }
 
