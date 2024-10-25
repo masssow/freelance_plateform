@@ -27,7 +27,7 @@ class FreelanceRegisterController extends AbstractController
             $em->persist($freelance);
             $em->flush();
 
-            // return $this->redirectToRoute('freelance_dashboard');
+             return $this->redirectToRoute('app_freelance_dashboard');
         }
 
         return $this->render('freelance_register/index.html.twig', [

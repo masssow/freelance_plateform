@@ -8,6 +8,7 @@ use React\Dns\Model\Message;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator as CustomAssert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
@@ -25,6 +26,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180)]
     #[Assert\NotBlank(message: "Le Champ email ne peut pas être vide. ")]
     #[Assert\Email(message: "L'email '{{ value }}' n'est pas valide. ")]
+    #[CustomAssert\ValidEmailDomain]
 
     private ?string $email = null;
 
@@ -43,6 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         min: 6,
         minMessage: "Le mot de passe doit contenir au moins {{ limit }} caractères."
     )]
+    #[CustomAssert\ValidPassword]
     private ?string $password = null;
 
     public function getId(): ?int

@@ -32,7 +32,7 @@ class ClientRegisterController extends AbstractController
             $entityManager->persist($client);
             $entityManager->flush();
 
-            // return $this->redirectToRoute('client_dashboard');
+             return $this->redirectToRoute('app_client_dashboard');
         }
         return $this->render('client_register/index.html.twig', [
             'form' => $form->createView(),
