@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProjetRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,6 +33,34 @@ class Projet
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateLimiteCandidature = null;
+
+    /**
+     * @var Collection<int, Freelance>
+     */
+    #[ORM\ManyToMany(targetEntity: Freelance::class, mappedBy: 'projets')]
+    private Collection $freelances;
+
+    #[ORM\ManyToOne(inversedBy: 'projetsPublies')]
+    private ?Client $clientCreateur = null;
+
+    /**
+     * @var Collection<int, Candidature>
+     */
+    #[ORM\OneToMany(targetEntity: Candidature::class, mappedBy: 'projet')]
+    private Collection $candidatures;
+
+    /**
+     * @var Collection<int, Evaluation>
+     */
+    #[ORM\OneToMany(targetEntity: Evaluation::class, mappedBy: 'projet')]
+    private Collection $evaluations;
+
+    public function __construct()
+    {
+        $this->freelances = new ArrayCollection();
+        $this->candidatures = new ArrayCollection();
+        $this->evaluations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -105,6 +135,105 @@ class Projet
     public function setDateLimiteCandidature(?\DateTimeInterface $dateLimiteCandidature): static
     {
         $this->dateLimiteCandidature = $dateLimiteCandidature;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Freelance>
+     */
+    public function getFreelances(): Collection
+    {
+        return $this->freelances;
+    }
+
+    public function addFreelance(Freelance $freelance): static
+    {
+        if (!$this->freelances->contains($freelance)) {
+            $this->freelances->add($freelance);
+            $freelance->addProjet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFreelance(Freelance $freelance): static
+    {
+        if ($this->freelances->removeElement($freelance)) {
+            $freelance->removeProjet($this);
+        }
+
+        return $this;
+    }
+
+    public function getClientCreateur(): ?Client
+    {
+        return $this->clientCreateur;
+    }
+
+    public function setClientCreateur(?Client $clientCreateur): static
+    {
+        $this->clientCreateur = $clientCreateur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Candidature>
+     */
+    public function getCandidatures(): Collection
+    {
+        return $this->candidatures;
+    }
+
+    public function addCandidature(Candidature $candidature): static
+    {
+        if (!$this->candidatures->contains($candidature)) {
+            $this->candidatures->add($candidature);
+            $candidature->setProjet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidature(Candidature $candidature): static
+    {
+        if ($this->candidatures->removeElement($candidature)) {
+            // set the owning side to null (unless already changed)
+            if ($candidature->getProjet() === $this) {
+                $candidature->setProjet(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Evaluation>
+     */
+    public function getEvaluations(): Collection
+    {
+        return $this->evaluations;
+    }
+
+    public function addEvaluation(Evaluation $evaluation): static
+    {
+        if (!$this->evaluations->contains($evaluation)) {
+            $this->evaluations->add($evaluation);
+            $evaluation->setProjet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvaluation(Evaluation $evaluation): static
+    {
+        if ($this->evaluations->removeElement($evaluation)) {
+            // set the owning side to null (unless already changed)
+            if ($evaluation->getProjet() === $this) {
+                $evaluation->setProjet(null);
+            }
+        }
 
         return $this;
     }

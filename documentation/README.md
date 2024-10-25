@@ -2,8 +2,31 @@ Joined Table Inheritance (JTI)
 
 
 TODO : 
-protected page (e.g. redirect to /login), uncomment this method and make this class security.yml
+-protected page (e.g. redirect to /login), uncomment this method and make this class security.yml
+-Entites en rapport la collaboration ainsi que ses relations:
+Espace dédié à la collaboration sur un projet.
+7. EspaceCollaboratif (CollaborativeSpace)
+    Propriétés :
+    id (int) : non-nullable
+    nom (string) : non-nullable
+    description (text) : nullable
+    dateCréation (DateTime) : non-nullable
+    Relations :
+    projet (OneToOne -> Projet) : non-nullable
+    freelances (ManyToMany -> Freelance) : nullable
+    taches (OneToMany -> Tâche) : nullable.
 
+8. Tâches à accomplir dans un projet collaboratif. 
+    Tâche (Task)
+    Propriétés :
+    id (int) : non-nullable
+    nom (string) : non-nullable
+    description (text) : nullable
+    statut (string) : non-nullable (à faire, en cours, terminée)
+    dateLimite (DateTime) : nullable
+    Relations :
+    espaceCollaboratif (ManyToOne -> EspaceCollaboratif) : non-nullable
+    freelanceResponsable (ManyToOne -> Freelance) : nullable
 
 But : Donner une vue d'ensemble du projet, ses objectifs, et un guide rapide pour démarrer.
 Contenu recommandé :
