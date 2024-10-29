@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProjetController!{% endblock %}
+
+{% block body %}
+
+<h3>{{client.nomEntreprise}} voici vos projets :</h3>
+<table class="table">
+            <thead>
+                <tr>
+                <th>Titre de Projet</th>
+                <th>Description</th>
+                <th>Statut</th>
+                <th>Actions</th>
+                <th>Collaborateurs</th>
+                </tr>
+            </thead>
+    <tbody>
+            {% for projet in projets %}
+            
+            <td>{{projet.titre}}</td>
+            <td>{{projet.description}}</td>
+        
+            <!-- Affichage et modification du statut -->
+            <td>
+                <form action="={{ path ('app_statut')}}" method="post">
+                    <select name="status" onchange="this.form.submit()">
+                        <option value="created" {% if projet.status == 'created' %}selected{% endif %}>Créé</option>
+                        <option value="in_progress" {% if projet.status == 'in_progress' %}selected{% endif %}>En cours</option>
+                        <option value="completed" {% if projet.status == 'completed' %}selected{% endif %}>Terminé</option>
+                        <option value="cancelled" {% if projet.status == 'cancelled' %}selected{% endif %}>Annulé</option>
+                    </select>
+                                <input type="hidden" name="_token" value="{{ csrf_token('update-status-' ~ projet.id) }}">
+                </form>
+            </td>
+
+            <td><!-- Actions Modifier et Supprimer -->
+                <a href="{{ path('app_edit_projet', { id: projet.id }) }}" class="btn btn-warning  my-2">Modifier</a>
+                    <form action="{{ path('delete_project', { id: projet.id }) }}" method="post" style="display:inline;">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete-project-' ~ projet.id) }}">
+                        <button type="submit" class="btn btn-danger my-2" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce projet ?')">Supprimer</button>
+                    </form>
+            </td>
+
+             <!-- Liste des Freelances postulants -->
+            <td>
+                {% if projet.candidatures is empty %}
+                    <em>Pas de Candidat inscrits au projet</em>
+                {% else %}
+
+                <ul>
+                    {% for candidature in projet.candidatures %}
+                    <li>{{freelance.email}}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                 <a href="{{ path('app_search_freelance')}}" class="btn btn-success">chercher un candidat</a>
+            </td>
+        </tr>
+          {% else %} 
+          <tr>
+            <td colspan="5" class="text-center">Aucun projet publié pour le moment</td>
+
+            <button class="btn btn-success">Publier un projet</button>
+          </tr> 
+          {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

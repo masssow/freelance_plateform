@@ -71,6 +71,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'Utilisateur')]
     private Collection $notifications;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $avatar = null;
+
     public function __construct()
     {
         $this->messagesEnvoyes = new ArrayCollection();
@@ -256,6 +259,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $notification->setUtilisateur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): static
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }

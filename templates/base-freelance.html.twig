@@ -6,17 +6,7 @@
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         {% block stylesheets %}
             {{ encore_entry_link_tags('global') }}
-            {# {{ encore_entry_link_tags('bootstrap_css') }} #}
-            {{ encore_entry_link_tags('bootstrap-datepicker') }}
-            {# {{ encore_entry_link_tags('datatables-bootstrap4_css') }} #}
-            {{ encore_entry_link_tags('daterangepicker') }}
-            {{ encore_entry_link_tags('dropzone') }}
-            {# {{ encore_entry_link_tags('fullcalendar_css') }} #}
-            {{ encore_entry_link_tags('perfect-scrollbar') }}
-            {# {{ encore_entry_link_tags('quill-snow_css') }} #}
-            {{ encore_entry_link_tags('select2') }}
-            {{ encore_entry_link_tags('simplebar') }}
-            {{ encore_entry_link_tags('uppy') }}
+            
 
             
         {% endblock %}
@@ -364,9 +354,7 @@
     </body>
      {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
-            {# {{ encore_entry_script_tags('bootstrap') }} #}
-            {{ encore_entry_script_tags('apexcharts-custom') }}
-            {{ encore_entry_script_tags('datamaps-all') }}
+
             <script>
       $('.select2').select2(
       {

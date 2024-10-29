@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello RegisterController!{% endblock %}
+
+{% block body %}
+
+<div class="container my-5">
+        {# <h2 class="text-center mb-4">Choisissez votre type de compte pour vous connecter</h2> #}
+        <div class="row">
+            <!-- Carte pour le type d'utilisateur 1 -->
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Client</h5>
+                        <p class="card-text">Accédez à votre espace pour gérer vos projets et découvrir des freelances qualifiés.</p>
+                        <a href="{{ path ('app_client_register')}}" class="btn btn-primary">Se connecter en tant que Client</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Carte pour le type d'utilisateur 2 -->
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Freelance</h5>
+                        <p class="card-text">Connectez-vous pour consulter les offres de projets et proposer vos services.</p>
+                        <a href="{{ path ('app_freelance_register')}}" class="btn btn-primary">Se connecter en tant que Freelance</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

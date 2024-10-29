@@ -28,6 +28,37 @@ Espace dédié à la collaboration sur un projet.
     espaceCollaboratif (ManyToOne -> EspaceCollaboratif) : non-nullable
     freelanceResponsable (ManyToOne -> Freelance) : nullable
 
+
+
+
+STRUCTURE DOSSIERS:
+
+src/
+└── Domain/
+    ├── Account/
+    │   ├── Controller/
+    │   │   └── AccountController.php         
+    │   ├── Service/
+    │   ├── Form/
+    │   └── Repository/
+    ├── Project/
+    │   ├── Controller/
+    │   │   └── ProjectController.php         
+    │   ├── Service/
+    │   ├── Form/
+    │   └── Repository/
+    ├── Notification/
+    │   ├── Controller/
+    │   │   └── NotificationController.php     
+    │   ├── Service/
+    │   └── Repository/
+    ├── Security/
+    │   ├── Controller/
+    │   ├── Service/
+    │   └── ...
+    └── └── HomeController.php    # Contrôleurs pages générales e.g page Home et autres.
+
+
 But : Donner une vue d'ensemble du projet, ses objectifs, et un guide rapide pour démarrer.
 Contenu recommandé :
 Nom et d

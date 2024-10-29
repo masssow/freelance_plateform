@@ -1,0 +1,12 @@
+{% extends 'base-client.html.twig' %}
+
+{% block title %}Modifier mon profil{% endblock %}
+
+{% block body %}
+  <h1>Mon Avatar</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.avatar) }}
+        <button class="btn btn-primary">Mettre à jour</button>
+    {{ form_end(form) }}
+{% endblock %}

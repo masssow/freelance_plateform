@@ -8,26 +8,103 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/global.scss';
 import './styles/simple_home/style.scss';
+
 import './js/home_js/landingpage';
 import './js/vendor/skydash';
+
+import'bootstrap';
 import '@popperjs/core';
 import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'owl.carousel';
+import $ from 'jquery';
+
 import 'apexcharts';
 import 'chart.js';
 import 'datamaps';
 import 'daterangepicker';
 import 'dropzone';
 import 'fullcalendar';
-import $ from 'jquery';
-require('bootstrap');
+
 // home_simple
-require('owl.carousel');
-require('bootstrap');
-import AOS from 'aos';
 require('aos/dist/aos.css') ;
-// const $ = require('jquery');
-// import 'moment';
-//import CSS
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const collectionHolder = document.querySelector('.competences-collection');
+
+    if (!collectionHolder) {
+        console.error("Élément '.competences-collection' non trouvé dans le DOM.");
+        return;
+    }
+
+    // Vérifie que l'attribut data-prototype est présent
+    const prototype = collectionHolder.getAttribute('data-prototype');
+    if (!prototype) {
+        console.error("L'attribut 'data-prototype' est manquant sur '.competences-collection'.");
+        return;
+    }
+
+    // Crée et ajoute le bouton "Ajouter une compétence" à la fin de la collection
+    const addButton = document.createElement('button');
+    addButton.textContent = 'Ajouter une compétence';
+    addButton.classList.add('btn', 'btn-primary', 'mt-2');
+    collectionHolder.appendChild(addButton);
+
+    // Écouteur d'événements pour ajouter un nouveau champ lors du clic sur le bouton
+    addButton.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        // Compte uniquement les éléments .competence-item
+        const fieldIndex = collectionHolder.querySelectorAll('.competence-item').length;
+
+        // Crée un nouvel élément en remplaçant le placeholder dans le prototype
+        const newField = document.createElement('div');
+        newField.classList.add('competence-item');
+        newField.innerHTML = prototype.replace(/__name__/g, fieldIndex);
+
+        // Insère le nouveau champ avant le bouton "Ajouter une compétence"
+        collectionHolder.insertBefore(newField, addButton);
+    });
+});
+
+
+// document.addEventListener("DOMContentLoaded", function () {
+//     const collectionHolder = document.querySelector('.competences-collection');
+    
+//     if (!collectionHolder) {
+//         console.error("Élément 'competences-collection' non trouvé dans le DOM.");
+//         return;
+//     }
+
+//     // Crée le bouton "Ajouter une compétence"
+//     const addButton = document.createElement('button');
+//     addButton.textContent = 'Ajouter une compétence';
+//     addButton.classList.add('btn', 'btn-primary', 'mt-2');
+//     console.log('Bonjour Competence');
+//     // Ajoute le bouton après l'élément "competences-collection"
+//     collectionHolder.appendChild(addButton);
+
+//     // Écouteur d'événements pour ajouter un nouveau champ
+//     addButton.addEventListener('click', function (e) {
+//         e.preventDefault();
+
+//         // Vérifie si le prototype est défini dans l'attribut data-prototype
+//         const prototype = collectionHolder.dataset.prototype;
+//         if (!prototype) {
+//             console.error("Attribut 'data-prototype' non défini pour 'competences-collection'.");
+//             return;
+//         }
+
+//         // Crée un nouvel élément en remplaçant le placeholder dans le prototype
+//         const newField = document.createElement('div');
+//         newField.innerHTML = prototype.replace(/__name__/g, collectionHolder.children.length);
+
+//         // Insère le nouveau champ avant le bouton "Ajouter une compétence"
+//         collectionHolder.insertBefore(newField, addButton);
+//     });
+// });
+
 
 //Popper js
 // document.addEventListener('DOMContentLoaded', function() {

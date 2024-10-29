@@ -11,6 +11,11 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ProjetRepository::class)]
 class Projet
 {
+    public const STATUS_CREATED = 'créé';
+    public const STATUS_IN_PROGRESS = 'en cours';
+    public const STATUS_COMPLETED = 'terminé';
+    public const STATUS_CANCELLED = 'annulé';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -60,6 +65,9 @@ class Projet
      */
     #[ORM\OneToMany(targetEntity: Paiement::class, mappedBy: 'projet')]
     private Collection $paiements;
+
+    #[ORM\Column(length: 50)]
+    private ?string $status = self::STATUS_CREATED;
 
     public function __construct()
     {
@@ -271,6 +279,18 @@ class Projet
                 $paiement->setProjet(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }

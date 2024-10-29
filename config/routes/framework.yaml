@@ -1,4 +1,7 @@
-when@dev:
-    _errors:
-        resource: '@FrameworkBundle/Resources/config/routing/errors.xml'
-        prefix: /_error
+# when@dev:
+#     _errors:
+#         resource: '@FrameworkBundle/Resources/config/routing/errors.xml'
+#         prefix: /_error
+# framework:
+#     router:
+#         utf8: true

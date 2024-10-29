@@ -19,15 +19,18 @@ class ClientRepository extends ServiceEntityRepository
     //    /**
     //     * @return Client[] Returns an array of Client objects
     //     */
-    //    public function findByExampleField($value): array
+    //     public function findClientWithProjects(int $clientId): array
     //    {
     //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
+    //             ->leftJoin('c.projetsPublies', 'p')
+    //            ->addSelect('p')
+    //            ->where('c.id = :id')
+    //            ->setParameter('id', $clientId)
     //            ->orderBy('c.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
+            //    ->getOneOrNullResult();
     //        ;
     //    }
 
