@@ -15,6 +15,39 @@ class ProjetRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Projet::class);
     }
+    
+
+    public function searchProjects(?string $titre, ?string $competence, ?int $budgetMax, ?string $nomEntreprise): array
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->join('p.clientCreateur', 'c') // Association avec le client pour obtenir le nom de l'entreprise
+            ->addSelect('c');
+
+        if ($titre) {
+            $qb->andWhere('p.titre LIKE :titre')
+            ->setParameter('titre', '%' . $titre . '%');
+        }
+
+        if ($competence) {
+            $qb->andWhere('p.competencesRequises LIKE :competence')
+            ->setParameter('competence', '%' . $competence . '%');
+        }
+
+        if ($budgetMax) {
+            $qb->andWhere('p.budget <= :budgetMax')
+            ->setParameter('budgetMax', $budgetMax);
+        }
+
+        if ($nomEntreprise) {
+            $qb->andWhere('c.nomEntreprise LIKE :nomEntreprise')
+            ->setParameter('nomEntreprise', '%' . $nomEntreprise . '%');
+        }
+
+        $qb->andWhere('p.status = :status')
+        ->setParameter('status', Projet::STATUS_PUBLISHED);
+
+        return $qb->getQuery()->getResult();
+    }
 
     //    /**
     //     * @return Projet[] Returns an array of Projet objects

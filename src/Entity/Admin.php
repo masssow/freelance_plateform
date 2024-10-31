@@ -23,6 +23,7 @@ class Admin extends User
     #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private ?array $historiqueModeration = null;
 
+
     public function getNom(): ?string
     {
         return $this->Nom;

@@ -19,13 +19,19 @@
             {% for projet in projets %}
             
             <td>{{projet.titre}}</td>
-            <td>{{projet.description}}</td>
+            <td>{% if projet.description|length > 100 %}
+                {{ projet.description|slice(0, 100) }}... 
+                <a href="{{ path('app_projet_detail', { id: projet.id }) }}">Voir plus</a>
+            {% else %}
+                {{ projet.description }}
+            {% endif %}</td>
         
             <!-- Affichage et modification du statut -->
             <td>
                 <form action="={{ path ('app_statut')}}" method="post">
                     <select name="status" onchange="this.form.submit()">
                         <option value="created" {% if projet.status == 'created' %}selected{% endif %}>Créé</option>
+                        <option value="publie" {% if projet.status == 'published' %}selected{% endif %}>Publié</option>
                         <option value="in_progress" {% if projet.status == 'in_progress' %}selected{% endif %}>En cours</option>
                         <option value="completed" {% if projet.status == 'completed' %}selected{% endif %}>Terminé</option>
                         <option value="cancelled" {% if projet.status == 'cancelled' %}selected{% endif %}>Annulé</option>

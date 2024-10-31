@@ -1,0 +1,42 @@
+{% extends 'base-freelance.html.twig' %}
+
+{% block title %}Hello FreelanceDashboardController!{% endblock %}
+
+{% block body %}
+
+<h2>Recherche de projets</h2>
+
+<div class="container-fluid mt-5">
+    <div class="row justify-content-center w-100">
+        <div class="col-md-6">
+            {{ form_start(form) }}
+            {{ form_row(form.titre) }}
+            {{ form_row(form.competencesRequises) }}
+            {{ form_row(form.budgetMax) }}
+            {{ form_row(form.nomEntreprise) }}
+            <button type="submit" class="btn btn-primary">Rechercher</button>
+{{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+
+<h3>Résultats de la recherche</h3>
+
+{% if projets is empty %}
+    <p>Aucun projet trouvé.</p>
+{% else %}
+    <ul>
+        {% for projet in projets %}
+            <li>
+                <h4>{{ projet.titre }}</h4>
+                <p>{{ projet.description|slice(0, 100) }}{% if projet.description|length > 100 %}...{% endif %}</p>
+                <p><strong>Nom de l'entreprise:</strong> {{ projet.clientCreateur.nomEntreprise }}</p>
+                <p><strong>Budget:</strong> {{ projet.budget }}</p>
+                <a href="{{ path('app_project_show', { id: projet.id }) }}">Voir le projet</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% endblock %}

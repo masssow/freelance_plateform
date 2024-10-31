@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Projet
 {
     public const STATUS_CREATED = 'créé';
+    public const STATUS_PUBLISHED = 'publié';
     public const STATUS_IN_PROGRESS = 'en cours';
     public const STATUS_COMPLETED = 'terminé';
     public const STATUS_CANCELLED = 'annulé';
@@ -27,8 +28,8 @@ class Projet
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
-    private array $competencesRequises = [];
+    #[ORM\Column(length: 255)]
+    private ?string $competencesRequises = null;
 
     #[ORM\Column(nullable: true)]
     private ?float $budget = null;
@@ -69,6 +70,9 @@ class Projet
     #[ORM\Column(length: 50)]
     private ?string $status = self::STATUS_CREATED;
 
+    #[ORM\ManyToOne]
+    private ?Metier $Metier = null;
+
     public function __construct()
     {
         $this->freelances = new ArrayCollection();
@@ -106,12 +110,12 @@ class Projet
         return $this;
     }
 
-    public function getCompetencesRequises(): array
+    public function getCompetencesRequises(): ?string
     {
         return $this->competencesRequises;
     }
 
-    public function setCompetencesRequises(array $competencesRequises): static
+    public function setCompetencesRequises(?string $competencesRequises): self
     {
         $this->competencesRequises = $competencesRequises;
 
@@ -291,6 +295,18 @@ class Projet
     public function setStatus(string $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getMetier(): ?Metier
+    {
+        return $this->Metier;
+    }
+
+    public function setMetier(?Metier $Metier): static
+    {
+        $this->Metier = $Metier;
 
         return $this;
     }

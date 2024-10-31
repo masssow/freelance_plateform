@@ -4,10 +4,10 @@ namespace App\Domain\Account\Controller;
 
 use App\Entity\Freelance;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Form\FreelanceRegistrationFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Domain\Account\Form\FreelanceRegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 

@@ -18,8 +18,8 @@ class Freelance extends User
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $portfolio = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private ?array $competences = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $competences = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $experiences = null;
@@ -47,6 +47,18 @@ class Freelance extends User
      */
     #[ORM\OneToMany(targetEntity: Paiement::class, mappedBy: 'freelance')]
     private Collection $paiements;
+
+    #[ORM\Column(length: 255)]
+    private ?string $nom = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $prenom = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $tauxHoraire = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $ville = null;
 
     public function __construct()
     {
@@ -81,12 +93,12 @@ class Freelance extends User
         return $this;
     }
 
-    public function getCompetences(): ?array
+    public function getCompetences(): ?string
     {
         return $this->competences;
     }
 
-    public function setCompetences(?array $competences): static
+    public function setCompetences(?string $competences): static
     {
         $this->competences = $competences;
 
@@ -215,6 +227,54 @@ class Freelance extends User
                 $paiement->setFreelance(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): static
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): static
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getTauxHoraire(): ?float
+    {
+        return $this->tauxHoraire;
+    }
+
+    public function setTauxHoraire(?float $tauxHoraire): static
+    {
+        $this->tauxHoraire = $tauxHoraire;
+
+        return $this;
+    }
+
+    public function getVille(): ?string
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?string $ville): static
+    {
+        $this->ville = $ville;
 
         return $this;
     }

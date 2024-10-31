@@ -32,6 +32,9 @@ class Client extends User
     #[ORM\OneToMany(targetEntity: Evaluation::class, mappedBy: 'client')]
     private Collection $evaluationsFreelances;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $VilleEntreprise = null;
+
     public function __construct()
     {
         parent::__construct();
@@ -131,6 +134,18 @@ class Client extends User
                 $evaluationsFreelance->setClient(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getVilleEntreprise(): ?string
+    {
+        return $this->VilleEntreprise;
+    }
+
+    public function setVilleEntreprise(?string $VilleEntreprise): static
+    {
+        $this->VilleEntreprise = $VilleEntreprise;
 
         return $this;
     }

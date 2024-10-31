@@ -28,6 +28,7 @@ class ProjetType extends AbstractType
             ->add('status', ChoiceType::class, [
                 'choices' => [
                     'Créé' => Projet::STATUS_CREATED,
+                    'Publié' => Projet::STATUS_PUBLISHED,
                     'En cours' => Projet::STATUS_IN_PROGRESS,
                     'Terminé' => Projet::STATUS_COMPLETED,
                     'Annulé' => Projet::STATUS_CANCELLED

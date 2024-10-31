@@ -3,5 +3,20 @@
 {% block title %}Hello ProjetController!{% endblock %}
 
 {% block body %}
+{{ form_start(form) }}
+    {{ form_row(form.titre) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.status) }}
 
+    <div class="competences-collection" data-prototype="{{ form_widget(form.competencesRequises.vars.prototype)|e('html_attr') }}">
+    {{ form_label(form.competencesRequises) }}
+    {% for competence in form.competencesRequises %}
+        <div class="competence-item">
+            {{ form_widget(competence) }}
+        </div>
+    {% endfor %}
+</div>
+
+    <button type="submit" class="btn btn-success">Enregistrer</button>
+{{ form_end(form) }}
 {% endblock %}

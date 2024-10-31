@@ -13,7 +13,8 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">Client</h5>
                         <p class="card-text">Accédez à votre espace pour gérer vos projets et découvrir des freelances qualifiés.</p>
-                        <a href="{{ path ('app_client_register')}}" class="btn btn-primary">Se connecter en tant que Client</a>
+                        <a href="{{ path ('app_client_register')}}" class="btn btn-primary">Creer un compte client</a>
+                        <p>J'ai mon compte client, <a href="{{ path ('app_login')}}">Se connecter</a></p>
                     </div>
                 </div>
             </div>
@@ -22,9 +23,11 @@
                 <div class="card h-100">
                     <div class="card-body text-center">
                         <h5 class="card-title">Freelance</h5>
-                        <p class="card-text">Connectez-vous pour consulter les offres de projets et proposer vos services.</p>
-                        <a href="{{ path ('app_freelance_register')}}" class="btn btn-primary">Se connecter en tant que Freelance</a>
+                        <p class="card-text">Consulter les offres de projets et proposer vos services.</p>
+                        <a href="{{ path ('app_freelance_register')}}" class="btn btn-primary">Créer un compte Freelance</a>
+                        <p>J'ai mon compte client, <a href="{{ path ('app_login')}}">Se connecter</a></p>
                     </div>
+                   
                 </div>
             </div>
         </div>
