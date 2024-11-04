@@ -2,7 +2,7 @@
  * Welcome to your app's main JavaScript file!
  *
  * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
+ * (and its CSS file) in your base layout (base.htmlh.twig).
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
@@ -17,7 +17,8 @@ import '@popperjs/core';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'owl.carousel';
 import $ from 'jquery';
-
+import Chart from 'chart.js/auto';
+import ApexCharts from 'apexcharts';
 import 'apexcharts';
 import 'chart.js';
 import 'datamaps';
@@ -155,6 +156,21 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+ // Initialiser ApexCharts
+    const radialBarElement = document.getElementById('radialbar');
+    if (radialBarElement) {
+        const options = {
+            chart: {
+                type: 'radialBar'
+            },
+            series: [67],
+            labels: ['Example Label'],
+        };
+        new ApexCharts(radialBarElement, options).render();
+    }
+
+
+
 // Datamaps:
 var map = new Datamap({
     element: document.getElementById('map'),
@@ -172,25 +188,6 @@ var map = new Datamap({
     }
 });
 
-
-// apexcharts Exemple de création d'un graphique simple
-var options = {
-    chart: {
-        type: 'line'
-    },
-    series: [{
-        name: 'sales',
-        data: [30, 40, 35, 50, 49, 60, 70, 91]
-    }],
-    xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug']
-    }
-}
-
-var chart = new ApexCharts(document.querySelector("#chart"), options);
-
-chart.render();
-// fin apexcharts
 
 // Initialisation d'un graphique gauge
 document.addEventListener("DOMContentLoaded", function() {
@@ -240,7 +237,7 @@ var options = {
     }
 }
 
-var chart = new ApexCharts(document.querySelector("#chart"), options);
+var chart = new ApexCharts(document.querySelector("#areaChart"), options);
 
 chart.render();
 // fin apexcharts

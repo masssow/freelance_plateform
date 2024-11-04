@@ -20,6 +20,20 @@ class FreelanceRegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('nom', TextType::class, [
+                'label' => 'Votre nom',
+                'attr' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'Entrez votre nom',
+                    ],  
+                ])
+            ->add('prenom', TextType::class, [
+                'label' => 'Votre prenom',
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Entrez votre prenom',
+                ],
+            ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
                 'constraints' => [
@@ -58,6 +72,7 @@ class FreelanceRegistrationFormType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'Lien vers votre portfolio',
                 ],
+                
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'S\'inscrire',

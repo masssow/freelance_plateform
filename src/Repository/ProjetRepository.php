@@ -15,54 +15,58 @@ class ProjetRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Projet::class);
     }
-    
 
-    public function searchProjects(?string $titre, ?string $competence, ?int $budgetMax, ?string $nomEntreprise): array
+
+
+    /**
+     * @return String Returns an array of Projet objects
+     */
+    public function findPublishedProjets(?string $status = Projet::STATUS_PUBLISHED): array
     {
-        $qb = $this->createQueryBuilder('p')
-            ->join('p.clientCreateur', 'c') // Association avec le client pour obtenir le nom de l'entreprise
-            ->addSelect('c');
-
-        if ($titre) {
-            $qb->andWhere('p.titre LIKE :titre')
-            ->setParameter('titre', '%' . $titre . '%');
-        }
-
-        if ($competence) {
-            $qb->andWhere('p.competencesRequises LIKE :competence')
-            ->setParameter('competence', '%' . $competence . '%');
-        }
-
-        if ($budgetMax) {
-            $qb->andWhere('p.budget <= :budgetMax')
-            ->setParameter('budgetMax', $budgetMax);
-        }
-
-        if ($nomEntreprise) {
-            $qb->andWhere('c.nomEntreprise LIKE :nomEntreprise')
-            ->setParameter('nomEntreprise', '%' . $nomEntreprise . '%');
-        }
-
-        $qb->andWhere('p.status = :status')
-        ->setParameter('status', Projet::STATUS_PUBLISHED);
-
-        return $qb->getQuery()->getResult();
+        return $this->createQueryBuilder('p')
+            ->Where('p.status LIKE :status')
+            ->setParameter('status', Projet::STATUS_PUBLISHED)
+            // ->orderBy('p.createdAt', 'DESC') // Optionnel : pour afficher les plus récents en premier
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
-    //    /**
-    //     * @return Projet[] Returns an array of Projet objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+
+   
+       /**
+        * @return Projet[] Returns an array of Projet objects
+        */
+       public function searchProjet($value): array
+       {
+           return $this->createQueryBuilder('p')
+               ->Where('p.titre LIKE :val')
+               ->setParameter('val', '%'. $value.'%')
+            //    ->orderBy('p.id', 'ASC')
+            //    ->setMaxResults(10)
+               ->getQuery()
+               ->getResult()
+            // ->andWhere('p.exampleField = :val')
+           ;
+       }
+
+       
+        /**
+         * @return Projet[] Returns an array of Projet objects
+         */
+        public function searchProjetPaginator($value)
+        {
+            return $this->createQueryBuilder('p')
+                ->Where('p.titre LIKE :val')
+                ->setParameter('val', '%' . $value . '%')
+                //    ->orderBy('p.id', 'ASC')
+                //    ->setMaxResults(10)
+                // ->getQuery()
+                // ->getResult()
+                // ->andWhere('p.exampleField = :val')
+            ;
+        }
+
 
     //    public function findOneBySomeField($value): ?Projet
     //    {

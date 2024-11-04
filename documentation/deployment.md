@@ -1,3 +1,6 @@
+TODO : Configurer les Cookies pour les Requêtes Sécurisées (Production)
+
+
 But : Documenter le processus de déploiement de l'application.
 Contenu recommandé :
 Procédure de déploiement sur les environnements (staging, production, etc.).

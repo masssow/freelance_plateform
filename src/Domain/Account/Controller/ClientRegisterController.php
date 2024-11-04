@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Domain\Controller;
+namespace App\Domain\Account\Controller;
 
 use App\Entity\Client;
-use App\Form\ClientRegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Domain\Account\Form\ClientRegistrationType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 

@@ -8,6 +8,8 @@ use App\Repository\ClientRepository;
 use App\Domain\Projet\Form\ProjetType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Domain\Projet\Service\ProjetService;
+use App\Repository\FreelanceRepository;
+use App\Repository\ProjetRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -22,8 +24,9 @@ class ProjetController extends AbstractController
     {}
 
     #[Route('/projet', name: 'app_projet')]
-    public function index(ClientRepository $clientRepository): Response
+    public function index(ClientRepository $clientRepository, ProjetRepository $projetPublic): Response
     {
+       $projetPublic =  // Vu freelance
         $client = $this->getUser();
         $projets = $client->getProjetsPublies();
         
@@ -50,7 +53,8 @@ class ProjetController extends AbstractController
         return $this->redirectToRoute('app_client_dashboard');
 
     }
-    
+
+    // Projets publiés par le client
     #[Route('/projets', name: 'app_projets_liste')]
     public function listeProjets(): Response
     {
@@ -139,30 +143,34 @@ class ProjetController extends AbstractController
     }
 
 
-    #[Route('/status-projet', name: 'app_statut')]
-    public function Statut(Projet $projet, string $status): Response
+    // #[Route('/status-projet', name: 'app_statut')]
+    // public function Statut(Projet $projet, string $status): Response
+    // {
+    //     $this->projetService->changeStatus($projet, $status);
+    //     $this->addFlash('success', 'Statut du projet mis à jour.');
+
+    //     // return $this->redirectToRoute('client_projet_liste');
+
+    //     return $this->render('projet/index.html.twig', [
+    //         'controller_name' => 'ProjetController',
+    //     ]);
+    // }
+
+    #[Route('/{id}/status-projet', name: 'app_update_status')]
+    public function changeStatut(Projet $projet, Request $request): Response
     {
+        $status = $request->request->get('status');
+
+
+            // Vérification du jeton CSRF
+        if (!$this->isCsrfTokenValid('update-status-' . $projet->getId(), $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('Jeton invalide.');
+        }
+
         $this->projetService->changeStatus($projet, $status);
         $this->addFlash('success', 'Statut du projet mis à jour.');
 
-        return $this->redirectToRoute('client_projet_liste');
-
-        return $this->render('projet/index.html.twig', [
-            'controller_name' => 'ProjetController',
-        ]);
-    }
-
-    #[Route('/{id}/status-projet', name: 'app_update_statut')]
-    public function changeStatut(Projet $projet, string $status): Response
-    {
-        $this->projetService->changeStatus($projet, $status);
-        $this->addFlash('success', 'Statut du projet mis à jour.');
-
-        return $this->redirectToRoute('client_projet_liste');
-
-        return $this->render('projet/edit.html.twig', [
-            'controller_name' => 'ProjetController',
-        ]);
+        return $this->redirectToRoute('app_projets_liste');
     }
 
     #[Route('/{id}/details-de-projet', name: 'app_projet_detail')]

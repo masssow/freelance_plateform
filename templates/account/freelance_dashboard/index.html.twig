@@ -14,10 +14,49 @@
                 <div class="col-auto">
                   <form class="form-inline">
                     <div class="form-group d-none d-lg-inline">
+            {# AFFICHAGE ET RECHERCHE PROJET #}
 
-                    <h2>Recherche de projets</h2>
+        <main role="main" class="container">
+          <h1>Projets Publiés</h1>
+          {% if projets is empty %}
+                <p>Aucun projet publié disponible pour le moment.</p>
+              {% else %}
+                <div class="project-list">
+                  {% for projet in projets %}
+                    <div class="project-item">
+                        <h3>{{ projet.titre }}</h3>
+                        
+                        <p>
+                            <strong>Description:</strong> 
+                            {{ projet.description|slice(0, 150) }}
+                            {% if projet.description|length > 150 %}...
+                                <a href="{{ path('app_project_show', { id: projet.id }) }}">Voir plus</a>
+                            {% endif %}
+                        </p>
+                        
+                        <p><strong>Budget:</strong> {{ projet.budget }} €</p>
+                        <p><strong>Entreprise:</strong> {{ projet.clientCreateur.nomEntreprise }}</p>
+                        
+                        <a href="{{ path('app_projet_detail', { id: projet.id }) }}" class="btn btn-primary">Détails du Projet</a>
+                    </div>
+                    <hr>
+                  {% endfor %}
+                </div>
+          {% endif %}
+          <h2>Recherche de projets</h2>
+                <div class="form-group d-flex justify-content-center col-form-label  mt-4">
+                    <form action="{{ path('app_freelance_search_projets') }}" method="get" class="d-flex">
+                        <input type="text" name="search-value" id="" class="form-control">
+                        <button type="submit" class="btn btn-dark btn-sm align-self-center mx-3">
+                          Rechercher
+                        </button>
+                    </form>
+                </div>
+        </main>
 
-                      {# <label for="reportrange" class="sr-only">Date Ranges</label>
+                    
+                {# FIN AFFICHAGE ET RECHERCHE PROJETS #}
+                        <label for="reportrange" class="sr-only">Date Ranges</label>
                       <div id="reportrange" class="px-2 py-2 text-muted">
                         <span class="small"></span>
                       </div>
@@ -67,7 +106,7 @@
                     </div>
                     <div class="chartbox mr-4">
                       <div id="areaChart"></div>
-                    </div> #}
+                    </div> 
                   </div> <!-- .card-body -->
                 </div> <!-- .card -->
               </div>
@@ -82,7 +121,7 @@
                           <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                         </div>
                         <div class="col-md-6 my-4 text-center">
-                          <div lass="chart-box mx-4">
+                          <div lass="chartbox mx-4">
                             <div id="radialbarWidget"></div>
                           </div>
                         </div>

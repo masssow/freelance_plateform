@@ -1,0 +1,108 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root_password
+          MYSQL_DATABASE: symfony
+          MYSQL_USER: symfony
+          MYSQL_PASSWORD: symfony_password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping --silent"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.1'
+
+    - name: Install dependencies
+      run: |
+        composer install
+
+    - name: Run migrations
+      run: |
+        php bin/console doctrine:migrations:migrate --no-interaction
+
+    - name: Run tests
+      run: |
+        php bin/phpunit
+
+
+
+
+
+    # steps:
+    #   # Étape 1 : Checkout du code source
+    #   - name: Checkout repository
+    #     uses: actions/checkout@v3
+
+    #   # Étape 2 : Attendre que MySQL soit prêt
+    #   - name: Wait for MySQL to be ready
+    #     run: |
+    #       for i in {30..0}; do
+    #         if docker exec $(docker ps -qf "name=db") mysqladmin ping --silent; then
+    #           echo "MySQL is ready!"
+    #           break
+    #         fi
+    #         echo 'Waiting for MySQL...'
+    #         sleep 1
+    #       done
+
+    #   # Étape 3 : Configuration de PHP et de Composer
+    #   - name: Set up PHP
+    #     uses: shivammathur/setup-php@v2
+    #     with:
+    #       php-version: '8.2'
+    #       extensions: mbstring, zip, pdo, pdo_mysql
+    #       ini-values: post_max_size=256M, upload_max_filesize=256M
+    #       coverage: none
+
+    #   # Étape 4 : Copier le fichier .env.workflow vers .env
+    #   - name: Copy .env file
+    #     run: cp .env.workflow .env
+
+    #   # Étape 5 : Mise à jour des dépendances Composer
+    #   - name: Update Composer dependencies
+    #     run: composer update
+
+    #   # Étape 6 : Installation des dépendances Symfony via Composer
+    #   - name: Install dependencies
+    #     run: composer install --prefer-dist --optimize-autoloader
+
+    #   # Étape 7 : Vérification des migrations Doctrine
+    #   - name: Verify Doctrine Migrations
+    #     run: php bin/console doctrine:migrations:status
+
+    #   # Étape 8 : Exécution des tests unitaires avec PHPUnit
+    #   - name: Run PHPUnit tests
+    #     run: php bin/phpunit
+
+    #   # Étape 9 : Build de l'image Docker pour le projet Symfony
+    #   - name: Build Docker image
+    #     run: docker build -t freelance_plateform/symfony-app .
+
+      # Étape 10 : Pousser l'image Docker sur Docker Hub (facultatif)
+    - name: Push Docker image to Docker Hub
+      run: |
+        echo "${{ secrets.PASSWORDFREE }}" | docker login -u "${{ secrets.MASS18 }}" --password-stdin
+        docker tag freelance_plateform/symfony-app:latest mydockerhubuser/symfony-app:latest
+        docker push mydockerhubuser/symfony-app:latest

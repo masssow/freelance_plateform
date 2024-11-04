@@ -35,25 +35,14 @@ class ProjetType extends AbstractType
                 ],
                 'label' => 'Statut',
             ])
-            ->add('competencesRequises', CollectionType::class, [
-                'entry_type' => TextType::class,
-                'entry_options' => [
-                    // 'label' => true,
+            ->add('competencesRequises', TextType::class, [
+                
                     'attr' => [
                         'placeholder' => 'Saisissez une compétence',
                         'class' => 'form-control competence-field',
                     ]
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'label' => 'Compétences requises',
-                'by_reference' => false,
-                'prototype' => true,
-                'prototype_name' => '__name__', // Nom de prototype standard pour un fonctionnement stable
-                'attr' => [
-                    'class' => 'competences-collection',
-                ],
-            ])
+                ])
+            
             ->add('budget')
             ->add('datePublication', null, [
                 'widget' => 'single_text',

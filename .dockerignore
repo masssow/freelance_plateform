@@ -1,0 +1,16 @@
+# Ignorer les dossiers de dépendances
+/vendor
+/node_modules
+/var
+/.gitignore
+
+# Ignorer les fichiers de configuration locaux et caches
+.env
+*.log
+*.lock
+.cache
+.DS_Store
+
+# Ignorer d’autres fichiers inutiles pour le build
+tests/
+docker-compose.yml

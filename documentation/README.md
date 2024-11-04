@@ -1,6 +1,14 @@
 Joined Table Inheritance (JTI)
 
-
+{# <?php
+$i = 1;
+$cfg['Servers'][$i]['auth_type'] = 'cookie'; 
+$cfg['Servers'][$i]['host'] = 'db'; 
+$cfg['Servers'][$i]['user'] = 'root'; 
+$cfg['Servers'][$i]['password'] = 'root_password'; 
+$cfg['Servers'][$i]['AllowNoPassword'] = false; 
+$cfg['Servers'][$i]['compress'] = false;
+$cfg['Servers'][$i]['AllowNoPassword'] = true;  #}
 TODO : 
 -protected page (e.g. redirect to /login), uncomment this method and make this class security.yml
 -Entites en rapport la collaboration ainsi que ses relations:
