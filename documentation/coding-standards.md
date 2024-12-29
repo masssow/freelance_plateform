@@ -22,7 +22,7 @@ ProjectFormType
 Règles générales :
 Utiliser la notation camelCase
 Le nom de la fonction doit décrire l'action effectuée.
-Toujours utiliser des verbres d’action pour les méthodes.
+Toujours utiliser des verbes d’action pour les méthodes.
 Les méthodes doivent être courtes et axées sur une seule responsabilité.
 Exemples :
 
